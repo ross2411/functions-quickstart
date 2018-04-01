@@ -37,7 +37,7 @@ module.exports = function run(context, request) {
     })(context, request);
   } else if (request.method === 'GET') {
     return server.graphiqlAzureFunctions({
-      endpointURL: './',
+      endpointURL: 'https://tred-azure-func-test.azurewebsites.net/api/HttpTriggerJS1',
     })(context, request);
   }
 };
