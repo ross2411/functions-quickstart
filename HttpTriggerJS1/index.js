@@ -32,17 +32,17 @@ const schema = graphqlTools.makeExecutableSchema({
 
 module.exports = function run(context, request) {
     graphiqlAzureFunctions({
-      graphqlUrl: '/api/graphql',
+      graphqlUrl: './',
     })(context);
 
   if (request.method === 'POST') {
     server.graphqlAzureFunctions({
-      endpointURL: '/api/graphql',
+      endpointURL: './',
       schema: schema,
     })(context, request);
-  } else if (request.method === 'GET') {
+  }/*  else if (request.method === 'GET') {
     return server.graphiqlAzureFunctions({
       endpointURL: '/api/graphql',
     })(context, request);
-  }
+  } */
 };
