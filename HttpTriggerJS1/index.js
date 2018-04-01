@@ -1,6 +1,9 @@
 const server = require('apollo-server-azure-functions');
 const graphqlTools = require('graphql-tools');
 
+const graphiqlAzureFunctions = require('graphiql-azure-functions');
+ 
+
 const typeDefs = `
   type Random {
     id: Int!
@@ -28,6 +31,10 @@ const schema = graphqlTools.makeExecutableSchema({
 });
 
 module.exports = function run(context, request) {
+    graphiqlAzureFunctions({
+      graphqlUrl: '/api/graphql',
+    })(context);
+
   if (request.method === 'POST') {
     server.graphqlAzureFunctions({
       endpointURL: '/api/graphql',
