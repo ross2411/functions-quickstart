@@ -1,17 +1,41 @@
-module.exports = function (context, req) {
-    context.log('JavaScript HTTP trigger function processed a request.');
+const server = require('apollo-server-azure-functions');
+const graphqlTools = require('graphql-tools');
 
-    if (req.query.name || (req.body && req.body.name)) {
-        context.res = {
-            // status: 200, /* Defaults to 200 */
-            body: "You the man.  Hello " + (req.query.name || req.body.name)
-        };
-    }
-    else {
-        context.res = {
-            status: 400,
-            body: "Please pass a name on the query string or in the request body"
-        };
-    }
-    context.done();
+const typeDefs = `
+  type Random {
+    id: Int!
+    rand: String
+  }
+
+  type Query {
+    rands: [Random]
+    rand(id: Int!): Random
+  }
+`;
+
+const rands = [{ id: 1, rand: 'random' }, { id: 2, rand: 'modnar' }];
+
+const resolvers = {
+  Query: {
+    rands: () => rands,
+    rand: (_, { id }) => rands.find(rand => rand.id === id),
+  },
+};
+
+const schema = graphqlTools.makeExecutableSchema({
+  typeDefs,
+  resolvers,
+});
+
+module.exports = function run(context, request) {
+  if (request.method === 'POST') {
+    server.graphqlAzureFunctions({
+      endpointURL: '/api/graphql',
+      schema: schema,
+    })(context, request);
+  } else if (request.method === 'GET') {
+    return server.graphiqlAzureFunctions({
+      endpointURL: '/api/graphql',
+    })(context, request);
+  }
 };

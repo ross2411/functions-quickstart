@@ -1,0 +1,17 @@
+{
+  "name": "httptriggerjs1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "apollo-server-azure-functions": "^1.3.4",
+    "graphql-tools": "^2.23.1",
+    "graphql": "^0.13.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
