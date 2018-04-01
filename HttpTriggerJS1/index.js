@@ -1,8 +1,6 @@
 const server = require('apollo-server-azure-functions');
 const graphqlTools = require('graphql-tools');
 
-const graphiqlAzureFunctions = require('graphiql-azure-functions');
- 
 
 const typeDefs = `
   type Random {
@@ -31,18 +29,15 @@ const schema = graphqlTools.makeExecutableSchema({
 });
 
 module.exports = function run(context, request) {
-    graphiqlAzureFunctions({
-      graphqlUrl: './',
-    })(context);
 
   if (request.method === 'POST') {
     server.graphqlAzureFunctions({
       endpointURL: './',
       schema: schema,
     })(context, request);
-  }/*  else if (request.method === 'GET') {
+  } else if (request.method === 'GET') {
     return server.graphiqlAzureFunctions({
-      endpointURL: '/api/graphql',
+      endpointURL: './',
     })(context, request);
-  } */
+  }
 };
